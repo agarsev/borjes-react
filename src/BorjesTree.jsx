@@ -1,8 +1,7 @@
 "use strict";
 
 var React = require('react');
-var types = require('borjes/src/types');
-var fmt = require('borjes/src/formatter');
+var bjs = require('borjes');
 
 var branch= '<svg xmlns="http://www.w3.org/2000/svg"'
            +' xmlns:xlink="http://www.w3.org/1999/xlink"'
@@ -34,7 +33,7 @@ class BorjesTree extends React.Component {
                 {o.map((t, i) => <BorjesTree key={i} tree={t} />)}
             </div>);
         }
-        var text = fmt.flist(o.node, 'symbol');
+        var text = bjs.formatter.flist(o.node, 'symbol');
 
         var oneStyle = {
             textAlign: "center"
