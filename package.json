@@ -2,9 +2,15 @@
   "name": "borjes-react",
   "version": "0.0.1",
   "description": "",
-  "main": "BorjesTree.jsx",
+  "main": "dist/BorjesTree.js",
+  "scripts": {
+      "install": "make"
+  },
   "dependencies": {
-    "react": "^0.13.3",
-    "borjes": "git+ssh://git@garciasevilla.com:borjes"
+    "borjes": "git+ssh://git@garciasevilla.com:borjes",
+    "react": "^0.13.3"
+  },
+  "devDependencies": {
+    "react-tools": "^0.13.3"
   }
 }
