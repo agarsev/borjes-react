@@ -1,0 +1,10 @@
+{
+  "name": "borjes-react",
+  "version": "0.0.1",
+  "description": "",
+  "main": "BorjesTree.jsx",
+  "dependencies": {
+    "react": "^0.13.3",
+    "borjes": "git+ssh://git@garciasevilla.com:borjes"
+  }
+}
