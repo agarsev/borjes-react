@@ -1,7 +1,7 @@
 "use strict";
 
-var React = require('react');
-var bjs = require('borjes');
+import React from 'react';
+import bjs from 'borjes';
 
 var branch= '<svg xmlns="http://www.w3.org/2000/svg"'
            +' xmlns:xlink="http://www.w3.org/1999/xlink"'
@@ -28,12 +28,6 @@ class BorjesTree extends React.Component {
 
     render () {
         var o = this.props.tree;
-        if (o.length) {
-            return (<div>
-                {o.map((t, i) => <BorjesTree key={i} tree={t} />)}
-            </div>);
-        }
-        var text = bjs.formatter.flist(o.node, 'symbol');
 
         var oneStyle = {
             textAlign: "center"
@@ -59,7 +53,7 @@ class BorjesTree extends React.Component {
             }
             return (<span style={oneStyle}>
                 {branch?<div dangerouslySetInnerHTML={{__html:branch}} />:null}
-                <div style={textStyle}>{text}</div>
+                <div style={textStyle}><BorjesComponent x={o.node} /></div>
                 {o.children.length==0?null:<BorjesTree branch="straight" tree={o.children[0]} />}
             </span>);
         } else if (o.children.length == 2) {
@@ -87,6 +81,6 @@ class BorjesTree extends React.Component {
         return nextProps.tree !== this.props.tree;
     }
 
-};
+}
 
-module.exports = BorjesTree;
+export default BorjesTree;
