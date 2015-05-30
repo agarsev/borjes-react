@@ -1,7 +1,7 @@
 "use strict";
 
 import React from 'react';
-import bjs from 'borjes';
+import BorjesComponent from './BorjesComponent';
 
 var branch= '<svg xmlns="http://www.w3.org/2000/svg"'
            +' xmlns:xlink="http://www.w3.org/1999/xlink"'
@@ -66,7 +66,7 @@ class BorjesTree extends React.Component {
             return (<table style={tableStyle}>
                     {branch}
                     <tr><td></td><td style={{textAlign: 'left'}}>
-                        <span style={centeredTextStyle}>{text}</span>
+                        <span style={centeredTextStyle}><BorjesComponent x={o.node} /></span>
                     </td></tr>
                     <tr><td style={{verticalAlign: 'top'}}>
                         <BorjesTree branch="left" tree={o.children[0]} />

@@ -1,7 +1,9 @@
 "use strict";
 
 import React from 'react';
-import bjs from 'borjes';
+import Bjs from 'borjes';
+
+import BorjesTree from './BorjesTree';
 
 class BorjesComponent extends React.Component {
 
@@ -19,7 +21,7 @@ class BorjesComponent extends React.Component {
             case 'tree':
                 return <BorjesTree tree={x} />;
             case 'fstruct':
-                return <span>{bjs.formatter.flist(x, 'symbol')}</span>;
+                return <span>{Bjs.formatter.flist(x, 'symbol')}</span>;
         }
         return <span>Unrecognized Object</span>;
     }
