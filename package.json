@@ -4,11 +4,8 @@
   "license": "AGPL-3.0",
   "main": "dist/BorjesComponent.js",
   "private": true,
-  "scripts": {
-    "install": "make"
-  },
   "dependencies": {
-    "borjes": "git+ssh://git@garciasevilla.com:borjes",
+    "borjes": "https://garciasevilla.com/pkgs/borjes.tar.gz",
     "react": "^0.13.3"
   },
   "devDependencies": {

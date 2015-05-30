@@ -1,5 +1,8 @@
 DIST:=$(patsubst src/%.jsx, dist/%.js, $(wildcard src/*))
 
+PKGNAME:=borjes-react
+PUBLISH_URL:=garciasevilla.com:/var/www/pkgs/
+
 all: $(DIST)
 
 $(DIST): dist/%.js: src/%.jsx
@@ -14,4 +17,11 @@ test/bundle.js: test/main.jsx $(DIST)
 clean:
 	rm -rf dist
 
-.PHONY: test clean
+publish: $(DIST)
+	mkdir -p .publish/$(PKGNAME)
+	cp -r dist package.json .publish/$(PKGNAME)
+	cd .publish && tar -czf $(PKGNAME).tar.gz $(PKGNAME)
+	scp .publish/$(PKGNAME).tar.gz $(PUBLISH_URL)
+	rm -rf .publish
+
+.PHONY: test clean publish
