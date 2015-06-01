@@ -7,6 +7,7 @@ var FStruct = Bjs.types.FStruct;
 
 import BorjesTree from './BorjesTree';
 import BorjesAVM from './BorjesAVM';
+import BorjesVariable from './BorjesVariable';
 
 class BorjesComponent extends React.Component {
 
@@ -21,6 +22,9 @@ class BorjesComponent extends React.Component {
                 {x.map((y, i) => <BorjesComponent opts={opts} key={i} x={y} />)}
             </div>);
         }
+        if (x.borjes_bound !== undefined && opts.world === undefined) {
+            opts.world = x.borjes_bound;
+        }
         switch (x.borjes) {
             case 'literal':
                 return <span className="borjes_literal">{x.s}</span>;
@@ -33,6 +37,8 @@ class BorjesComponent extends React.Component {
                 } else {
                     return <BorjesAVM x={x} opts={opts} />;
                 }
+            case 'variable':
+                return <BorjesVariable x={x} opts={opts} />;
         }
         return <span>Unrecognized Object</span>;
     }

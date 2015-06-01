@@ -1,4 +1,6 @@
 @type_color: #c30;
+@literal_color: #080;
+@variable_color: #64f;
 
 .borjes_fs {
     display: inline-block;
@@ -31,5 +33,13 @@
 
 .borjes_literal {
     font-style: italic;
-    color: green;
+    color: @literal_color;
+}
+
+.borjes_variable {
+    padding: 0px 2px;
+    margin: 2px;
+    border: 1px solid @variable_color;
+    color: @variable_color;
+    cursor: pointer;
 }
