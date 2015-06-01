@@ -39,6 +39,8 @@ class BorjesComponent extends React.Component {
                 }
             case 'variable':
                 return <BorjesVariable x={x} opts={opts} />;
+            case 'latticeel':
+                return <span className="borjes_latticeel">{x.e}</span>;
         }
         return <span>Unrecognized Object</span>;
     }
