@@ -22,6 +22,8 @@ class BorjesComponent extends React.Component {
             </div>);
         }
         switch (x.borjes) {
+            case 'literal':
+                return <span className="borjes_literal">{x.s}</span>;
             case 'tree':
                 return <BorjesTree tree={x} opts={opts} />;
             case 'tfstruct':
