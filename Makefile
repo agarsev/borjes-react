@@ -1,13 +1,18 @@
-DIST:=$(patsubst src/%.jsx, dist/%.js, $(wildcard src/*))
+DIST:=$(patsubst src/%.jsx, dist/%.js, $(wildcard src/*.jsx))
+DIST+=$(patsubst src/%.less, dist/%.css, $(wildcard src/*.less))
 
 PKGNAME:=borjes-react
 PUBLISH_URL:=garciasevilla.com:/var/www/pkgs/
 
 all: $(DIST)
 
-$(DIST): dist/%.js: src/%.jsx
+dist/%.js: src/%.jsx
 	mkdir -p dist
 	babel $< >$@
+
+dist/%.css: src/%.less
+	mkdir -p dist
+	lessc $< >$@
 
 test: test/bundle.js
 

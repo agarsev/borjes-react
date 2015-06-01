@@ -53,8 +53,8 @@ class BorjesTree extends React.Component {
             }
             return (<span style={oneStyle}>
                 {branch?<div dangerouslySetInnerHTML={{__html:branch}} />:null}
-                <div style={textStyle}><BorjesComponent x={o.node} /></div>
-                {o.children.length==0?null:<BorjesTree branch="straight" tree={o.children[0]} />}
+                <div style={textStyle}><BorjesComponent x={o.node} opts={this.props.opts} /></div>
+                {o.children.length==0?null:<BorjesTree branch="straight" tree={o.children[0]} opts={this.props.opts} />}
             </span>);
         } else if (o.children.length == 2) {
             var branch;
@@ -66,12 +66,12 @@ class BorjesTree extends React.Component {
             return (<table style={tableStyle}>
                     {branch}
                     <tr><td></td><td style={{textAlign: 'left'}}>
-                        <span style={centeredTextStyle}><BorjesComponent x={o.node} /></span>
+                        <span style={centeredTextStyle}><BorjesComponent x={o.node} opts={this.props.opts} /></span>
                     </td></tr>
                     <tr><td style={{verticalAlign: 'top'}}>
-                        <BorjesTree branch="left" tree={o.children[0]} />
+                        <BorjesTree branch="left" tree={o.children[0]} opts={this.props.opts} />
                     </td><td style={{verticalAlign: 'top'}}>
-                        <BorjesTree branch="right" tree={o.children[1]} />
+                        <BorjesTree branch="right" tree={o.children[1]} opts={this.props.opts} />
                     </td></tr>
             </table>);
         }
