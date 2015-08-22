@@ -28,9 +28,11 @@ class BorjesAVM extends React.Component {
 
     addF () {
         var f = React.findDOMNode(this.refs.newF).value;
-        var x = this.props.x;
-        FStruct.set(x, f, Bjs.types.Anything);
-        this.props.update(x);
+        if (f.length > 0) {
+            var x = this.props.x;
+            FStruct.set(x, f, Bjs.types.Anything);
+            this.props.update(x);
+        }
     }
 
     rmF (f) {

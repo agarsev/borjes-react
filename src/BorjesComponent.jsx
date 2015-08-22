@@ -71,12 +71,16 @@ class BorjesComponent extends React.Component {
         }
         switch (x.borjes) {
             case 'anything':
-                return <span className="borjes">
-                    <button onClick={this.newV.bind(this, 'l')}>l</button>
-                    <button onClick={this.newV.bind(this, 'f')}>f</button>
-                    <button onClick={this.newV.bind(this, 'v')}>v</button>
-                    <button onClick={this.paste.bind(this)}>p</button>
-                </span>;
+                if (opts.editable) {
+                    return <span className="borjes">
+                        <button onClick={this.newV.bind(this, 'l')}>l</button>
+                        <button onClick={this.newV.bind(this, 'f')}>f</button>
+                        <button onClick={this.newV.bind(this, 'v')}>v</button>
+                        <button onClick={this.paste.bind(this)}>p</button>
+                    </span>;
+                } else {
+                    return <span className="borjes_literal">⊤</span>;
+                }
             case 'literal':
                 return <span className="borjes">{prev}<span className="borjes_literal">{opts.editable?
                     <input type="text" value={x.s} onChange={this.updateLiteral.bind(this)} />
