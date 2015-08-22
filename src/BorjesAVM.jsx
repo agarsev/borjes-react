@@ -19,6 +19,13 @@ class BorjesAVM extends React.Component {
     toggle () {
         this.setState({ show: !this.state.show });
     }
+
+    updateF (feat, value) {
+        var x = this.props.x;
+        FStruct.set(x, feat, value);
+        this.props.update(x);
+    }
+
     render () {
         var x = this.props.x;
         var atrs = x.f;
@@ -29,7 +36,7 @@ class BorjesAVM extends React.Component {
             {atrs.map(f => {
                 return (<tr key={f}>
                     <td className="borjes_feat">{f}</td>
-                    <td><BorjesComponent x={FStruct.get(x, f)} opts={this.props.opts}/></td>
+                    <td><BorjesComponent update={this.updateF.bind(this, f)} x={FStruct.get(x, f)} opts={this.props.opts}/></td>
                 </tr>);
             })}
             </tbody>

@@ -19,4 +19,8 @@ B.World.bind(W, sentence);
 
 var tree = Bjs.tree(sentence, [Bjs.tree(John), Bjs.tree(loves)]);
 
-React.render(<BorjesComponent x={tree} />, document.body);
+function render (x) {
+    React.render(<BorjesComponent x={x} update={render} opts={{editable:true}} />, document.body);
+}
+
+render(sentence);
