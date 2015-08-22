@@ -30,6 +30,22 @@ class BorjesComponent extends React.Component {
         }
     }
 
+    newV (type) {
+        var o;
+        switch (type) {
+            case 'l':
+                o = Bjs.types.Literal('');
+                break;
+            case 'f':
+                o = Bjs.types.FStruct();
+                break;
+            case 'v':
+                o = Bjs.types.Variable(this.props.opts.world, Bjs.types.Anything);
+                break;
+        }
+        this.props.update(o);
+    }
+
     render () {
         var x = this.props.x;
         var opts = this.props.opts || {};
@@ -56,8 +72,9 @@ class BorjesComponent extends React.Component {
         switch (x.borjes) {
             case 'anything':
                 return <span className="borjes">
-                    <button onClick={update.bind(undefined, Bjs.types.Literal(''))}>l</button>
-                    <button onClick={update.bind(undefined, FStruct())}>f</button>
+                    <button onClick={this.newV.bind(this, 'l')}>l</button>
+                    <button onClick={this.newV.bind(this, 'f')}>f</button>
+                    <button onClick={this.newV.bind(this, 'v')}>v</button>
                     <button onClick={this.paste.bind(this)}>p</button>
                 </span>;
             case 'literal':
