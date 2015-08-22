@@ -19,9 +19,21 @@ class BorjesComponent extends React.Component {
         this.props.update(Bjs.types.Anything);
     }
 
+    copy () {
+        this.props.opts.cpbuffer.v = Bjs.types.copy(this.props.x);
+    }
+
+    paste () {
+        var p = this.props.opts.cpbuffer.v;
+        if (p !== undefined) {
+            this.props.update(Bjs.types.copy(p));
+        }
+    }
+
     render () {
         var x = this.props.x;
         var opts = this.props.opts || {};
+        opts.cpbuffer = this.props.cpbuffer || opts.cpbuffer || {};
         var update = this.props.update;
         if (typeof x !== 'object') {
             return <span>{x}</span>;
@@ -36,13 +48,17 @@ class BorjesComponent extends React.Component {
         }
         var prev;
         if (opts.editable) {
-            prev = <button onClick={this.remove.bind(this)}>x</button>;
+            prev = <span>
+                <button onClick={this.remove.bind(this)}>x</button>
+                <button onClick={this.copy.bind(this)}>c</button>
+            </span>;
         }
         switch (x.borjes) {
             case 'anything':
                 return <span className="borjes">
                     <button onClick={update.bind(undefined, Bjs.types.Literal(''))}>l</button>
                     <button onClick={update.bind(undefined, FStruct())}>f</button>
+                    <button onClick={this.paste.bind(this)}>p</button>
                 </span>;
             case 'literal':
                 return <span className="borjes">{prev}<span className="borjes_literal">{opts.editable?

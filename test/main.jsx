@@ -19,8 +19,10 @@ B.World.bind(W, sentence);
 
 var tree = Bjs.tree(sentence, [Bjs.tree(John), Bjs.tree(loves)]);
 
+var cpbuffer = {};
+
 function render (x) {
-    React.render(<BorjesComponent x={x} update={render} opts={{editable:true}} />, document.body);
+    React.render(<BorjesComponent x={x} update={render} cpbuffer={cpbuffer} opts={{editable:true}} />, document.body);
 }
 
 render(sentence);
