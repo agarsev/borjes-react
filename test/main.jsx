@@ -19,10 +19,22 @@ B.World.bind(W, sentence);
 
 var tree = Bjs.tree(sentence, [Bjs.tree(John), Bjs.tree(loves)]);
 
+var editable = false;
 var cpbuffer = {};
 
-function render (x) {
-    React.render(<BorjesComponent x={x} update={render} cpbuffer={cpbuffer} opts={{editable:true}} />, document.body);
+var current = sentence;
+
+function render (val) {
+    if (val!==undefined) {
+        current = val;
+    }
+    React.render(<BorjesComponent x={current} update={render} cpbuffer={cpbuffer} opts={{editable}} />, document.getElementById('area'));
 }
 
-render(sentence);
+render();
+
+var editB = document.getElementById('toggleEdit');
+editB.onclick = function () {
+    editable = !editable;
+    render();
+}
