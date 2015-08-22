@@ -26,11 +26,21 @@ class BorjesAVM extends React.Component {
         this.props.update(x);
     }
 
+    updateT (e) {
+        var x = this.props.x;
+        this.props.opts.world.titles[x.index] = e.target.value;
+        this.props.update(x);
+    }
+
     render () {
         var x = this.props.x;
-        var value = World.resolve(this.props.opts.world, x);
+        var w = this.props.opts.world;
+        var value = World.resolve(w, x);
         return <span>
-            <a className="borjes_variable" onClick={this.toggle.bind(this)}>{x.index}</a>
+            {this.props.opts.editable
+                ?<input className="borjes_variable" type="text" value={w.titles[x.index]} onChange={this.updateT.bind(this)} />
+                :<a className="borjes_variable" onClick={this.toggle.bind(this)}>{w.titles[x.index]}</a>
+            }
             <span className={this.state.show?"borjes_visible":"borjes_hidden"}>
                 <BorjesComponent update={this.updateV.bind(this)} x={value} opts={this.props.opts} />
             </span>
