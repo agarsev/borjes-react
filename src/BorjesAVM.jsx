@@ -6,6 +6,7 @@ import Bjs from 'borjes';
 import BorjesComponent from './BorjesComponent';
 
 var FStruct = Bjs.types.FStruct;
+var Anything = Bjs.types.Anything;
 
 class BorjesAVM extends React.Component {
 
@@ -30,7 +31,7 @@ class BorjesAVM extends React.Component {
         var f = React.findDOMNode(this.refs.newF).value;
         if (f.length > 0) {
             var x = this.props.x;
-            FStruct.set(x, f, Bjs.types.Anything);
+            FStruct.set(x, f, Anything);
             this.props.update(x);
         }
     }
@@ -41,13 +42,25 @@ class BorjesAVM extends React.Component {
         this.props.update(x);
     }
 
+    updateType (t) {
+        var x = this.props.x;
+        if (t !== Anything && x.borjes !== 'tfstruct') {
+            x = Bjs.types.TFS(t, x.v, x.f);
+        } else {
+            x.type = t;
+        }
+        this.props.update(x);
+    }
+
     render () {
         var x = this.props.x;
         var opts = this.props.opts;
         var atrs = x.f;
         return (<table className="borjes_fs">
-            {x.borjes === 'tfstruct'?<thead><tr><th colSpan="2" onClick={this.toggle.bind(this)}>
-            <BorjesComponent x={x.type} opts={opts} /></th></tr></thead>:null}
+            {(x.borjes === 'tfstruct' || opts.editable)?<thead><tr>
+                <th colSpan="2" onClick={opts.editable?null:this.toggle.bind(this)}>
+                    <BorjesComponent x={x.type || Anything} update={this.updateType.bind(this)} opts={opts} />
+                </th></tr></thead>:null}
             <tbody className={this.state.show?'borjes_visible':'borjes_hidden'} >
             {atrs.map(f => {
                 return (<tr key={f}>
