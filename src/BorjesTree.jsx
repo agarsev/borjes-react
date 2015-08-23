@@ -26,8 +26,20 @@ var rightN = branch
 
 class BorjesTree extends React.Component {
 
+    update (who, val) {
+        var o = this.props.tree;
+        if (who == -1) {
+            o.node = val;
+        } else {
+            o.children[who] = val;
+        }
+        this.props.update(o);
+    }
+
     render () {
         var o = this.props.tree;
+        var opts = this.props.opts;
+        var update = this.props.update;
 
         var oneStyle = {
             textAlign: "center"
@@ -53,8 +65,11 @@ class BorjesTree extends React.Component {
             }
             return (<span style={oneStyle}>
                 {branch?<div dangerouslySetInnerHTML={{__html:branch}} />:null}
-                <div style={textStyle}><BorjesComponent x={o.node} opts={this.props.opts} /></div>
-                {o.children.length==0?null:<BorjesTree branch="straight" tree={o.children[0]} opts={this.props.opts} />}
+                <div style={textStyle}>
+                    <BorjesComponent x={o.node} update={this.update.bind(this, -1)} opts={opts} />
+                </div>
+                {o.children.length==0?null:
+                    <BorjesTree branch="straight" tree={o.children[0]} update={this.update.bind(this, 0)} opts={opts} />}
             </span>);
         } else if (o.children.length == 2) {
             var branch;
@@ -66,19 +81,19 @@ class BorjesTree extends React.Component {
             return (<table style={tableStyle}>
                     {branch}
                     <tr><td></td><td style={{textAlign: 'left'}}>
-                        <span style={centeredTextStyle}><BorjesComponent x={o.node} opts={this.props.opts} /></span>
+                        <span style={centeredTextStyle}><BorjesComponent x={o.node} update={this.update.bind(this, -1)} opts={opts} /></span>
                     </td></tr>
                     <tr><td style={{verticalAlign: 'top'}}>
-                        <BorjesTree branch="left" tree={o.children[0]} opts={this.props.opts} />
+                        <BorjesTree branch="left" tree={o.children[0]} update={this.update.bind(this, 0)} opts={opts} />
                     </td><td style={{verticalAlign: 'top'}}>
-                        <BorjesTree branch="right" tree={o.children[1]} opts={this.props.opts} />
+                        <BorjesTree branch="right" tree={o.children[1]} update={this.update.bind(this, 1)} opts={opts} />
                     </td></tr>
             </table>);
         }
     }
 
     shouldComponentUpdate(nextProps) {
-        return nextProps.tree !== this.props.tree;
+        return nextProps.tree !== this.props.tree || nextProps.opts !== this.props.opts;
     }
 
 }

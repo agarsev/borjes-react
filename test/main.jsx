@@ -22,7 +22,7 @@ var tree = Bjs.tree(sentence, [Bjs.tree(John), Bjs.tree(loves)]);
 var editable = false;
 var cpbuffer = {};
 
-var current = sentence;
+var current = tree;
 
 function render (val) {
     if (val!==undefined) {
