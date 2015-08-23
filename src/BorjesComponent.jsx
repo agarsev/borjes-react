@@ -43,6 +43,10 @@ class BorjesComponent extends React.Component {
             case 'v':
                 o = Bjs.types.Variable(this.props.opts.world, Bjs.types.Anything);
                 break;
+            case 't':
+                var s = this.props.opts.signature;
+                o = Bjs.types.Lattice.element(s, Object.keys(s.bits)[0]);
+                break;
         }
         this.props.update(o);
     }
@@ -77,6 +81,7 @@ class BorjesComponent extends React.Component {
                         <button onClick={this.newV.bind(this, 'l')}>l</button>
                         <button onClick={this.newV.bind(this, 'f')}>f</button>
                         <button onClick={this.newV.bind(this, 'v')}>v</button>
+                        <button onClick={this.newV.bind(this, 't')}>t</button>
                         <button onClick={this.paste.bind(this)}>p</button>
                     </span>;
                 } else {

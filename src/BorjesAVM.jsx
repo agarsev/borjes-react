@@ -17,8 +17,9 @@ class BorjesAVM extends React.Component {
         this.state = { show };
     }
 
-    toggle () {
+    toggle (e) {
         this.setState({ show: !this.state.show });
+        e.stopPropagation();
     }
 
     updateF (feat, value) {

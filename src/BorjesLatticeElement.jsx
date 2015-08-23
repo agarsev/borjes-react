@@ -16,7 +16,7 @@ class BorjesLatticeElement extends React.Component {
         var x = this.props.x;
         if (this.props.opts.editable) {
             return <select className="borjes_latticeel"
-                           defaultValue={x.e}
+                           value={x.e}
                            onChange={this.change.bind(this)}>
                 {Object.keys(Lattice.from_element(x).bits).map(function(name) {
                         return <option key={name}>{name}</option>;
