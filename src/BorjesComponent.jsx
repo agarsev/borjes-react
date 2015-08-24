@@ -53,6 +53,10 @@ class BorjesComponent extends React.Component {
         this.props.update(o);
     }
 
+    toggleChild (e) {
+        this.refs.child.toggle(e);
+    }
+
     render () {
         var x = this.props.x;
         var opts = this.props.opts || {};
@@ -76,6 +80,9 @@ class BorjesComponent extends React.Component {
             prev = <Menu>
                 <button onClick={this.remove.bind(this)}>x</button>
                 <button onClick={this.copy.bind(this)}>copy</button>
+                {x.borjes=='variable'||x.borjes=='fstruct'||x.borjes=='tfstruct'?
+                    <button onClick={this.toggleChild.bind(this)}>toggle</button>
+                    :null}
             </Menu>;
         }
         switch (x.borjes) {
@@ -104,10 +111,10 @@ class BorjesComponent extends React.Component {
                 if (FStruct.get(x, 'symbol') !== undefined) {
                     return <span className="borjes">{Bjs.formatter.flist(x, 'symbol')}</span>;
                 } else {
-                    return <span className="borjes">{prev}<BorjesAVM x={x} refresh={refresh} update={update} opts={opts} /></span>;
+                    return <span className="borjes">{prev}<BorjesAVM ref="child" x={x} refresh={refresh} update={update} opts={opts} /></span>;
                 }
             case 'variable':
-                return <span className="borjes">{prev}<BorjesVariable x={x} refresh={refresh} update={update} opts={opts} /></span>;
+                return <span className="borjes">{prev}<BorjesVariable ref="child" x={x} refresh={refresh} update={update} opts={opts} /></span>;
             case 'latticeel':
                 return <span className="borjes">{prev}<BorjesLatticeElement x={x} refresh={refresh} update={update} opts={opts} /></span>;
         }
