@@ -10,6 +10,8 @@ import BorjesAVM from './BorjesAVM';
 import BorjesVariable from './BorjesVariable';
 import BorjesLatticeElement from './BorjesLatticeElement';
 
+import Menu from './Menu';
+
 class BorjesComponent extends React.Component {
 
     updateLiteral (e) {
@@ -71,21 +73,21 @@ class BorjesComponent extends React.Component {
         }
         var prev;
         if (opts.editable) {
-            prev = <span>
+            prev = <Menu>
                 <button onClick={this.remove.bind(this)}>x</button>
-                <button onClick={this.copy.bind(this)}>c</button>
-            </span>;
+                <button onClick={this.copy.bind(this)}>copy</button>
+            </Menu>;
         }
         switch (x.borjes) {
             case 'anything':
                 if (opts.editable) {
-                    return <span className="borjes">
-                        <button onClick={this.newV.bind(this, 'l')}>l</button>
-                        <button onClick={this.newV.bind(this, 'f')}>f</button>
-                        <button onClick={this.newV.bind(this, 'v')}>v</button>
-                        <button onClick={this.newV.bind(this, 't')}>t</button>
-                        <button onClick={this.paste.bind(this)}>p</button>
-                    </span>;
+                    return <Menu>
+                        <button onClick={this.newV.bind(this, 'l')}>literal</button>
+                        <button onClick={this.newV.bind(this, 'f')}>fstruct</button>
+                        <button onClick={this.newV.bind(this, 'v')}>variable</button>
+                        <button onClick={this.newV.bind(this, 't')}>type</button>
+                        <button onClick={this.paste.bind(this)}>paste</button>
+                    </Menu>;
                 } else {
                     return <span className="borjes_literal">⊤</span>;
                 }

@@ -1,6 +1,11 @@
 @lattice_color: #c30;
 @literal_color: #080;
 @variable_color: #64f;
+@button_color: #fd8;
+
+document {
+    z-index: 0;
+}
 
 .borjes_fs {
     display: inline-block;
@@ -50,5 +55,30 @@
 .borjes {
     input {
         width: 3em;
+        margin: 0px;
+    }
+    button {
+        background: @button_color;
+        border-radius: 5px;
+        font-size: 90%;
+        padding: 1px;
+        margin: 1px 2px;
+        border: none;
+        border-bottom: 2px solid darken(@button_color, 30%);
+        .small {
+            font-size: 80%;
+            padding: 0px;
+            margin: 0px 2px 0px 0px;
+        }
+    }
+}
+
+.borjes_menu {
+    & > div {
+        border: 1px solid darken(@button_color, 15%);
+        border-radius: 3px;
+        padding: 2px;
+        background: white;
+        z-index: 1;
     }
 }

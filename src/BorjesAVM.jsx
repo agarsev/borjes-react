@@ -67,7 +67,8 @@ class BorjesAVM extends React.Component {
             {atrs.map(f => {
                 return (<tr key={f}>
                     <td className="borjes_feat">
-                        {opts.editable?<button onClick={this.rmF.bind(this, f)}>x</button>:null}
+                        {opts.editable?<button className="small"
+                            onClick={this.rmF.bind(this, f)}>x</button>:null}
                         {f}</td>
                     <td><BorjesComponent update={this.updateF.bind(this, f)} refresh={refresh} x={FStruct.get(x, f)} opts={opts}/></td>
                 </tr>);
