@@ -3,6 +3,8 @@
 import React from 'react';
 import BorjesComponent from './BorjesComponent';
 
+var branchHeight = 15;
+
 var branch= '<svg xmlns="http://www.w3.org/2000/svg"'
            +' xmlns:xlink="http://www.w3.org/1999/xlink"'
            +' width="100%" height="0.6em"'
@@ -26,74 +28,111 @@ var rightN = branch
 
 class BorjesTree extends React.Component {
 
+    constructor (props) {
+        super(props);
+        this.state = { branches: this.props.x.children.map(() => 'l') };
+    }
+
     update (who, val) {
-        var o = this.props.tree;
+        var x = this.props.x;
         if (who == -1) {
-            o.node = val;
+            x.node = val;
         } else {
-            o.children[who] = val;
+            x.children[who] = val;
         }
-        this.props.update(o);
+        this.props.update(x);
     }
 
     render () {
-        var o = this.props.tree;
+        var x = this.props.x;
         var opts = this.props.opts;
-        var update = this.props.update;
+        var ub = this.updateBranches.bind(this);
 
-        var oneStyle = {
-            textAlign: "center"
+        var containerStyle = {
+            display: 'inline-flex',
+            flexDirection: 'column'
         };
-        var tableStyle = {
-            textAlign: "center",
-            borderCollapse: "collapse"
+        var nodeStyle = {
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center'
         };
-        var textStyle = {
-            padding: "0 2ex"
+        var branchesStyle = {
+            position: 'relative',
+            height: branchHeight
         };
-        var centeredTextStyle = {
-            padding: "0 2ex",
-            display: 'inline-block',
-            transform: 'translate(-50%, 0)'
+        var branchStyle = {
+            position: 'absolute',
+            height: branchHeight,
+            top: 0
         };
-        if (o.children.length<2) {
-            var branch;
-            switch (this.props.branch) {
-                case 'straight': branch=straightC; break;
-                case 'left': branch=leftC; break;
-                case 'right': branch=rightC; break;
-            }
-            return (<span style={oneStyle}>
-                {branch?<div dangerouslySetInnerHTML={{__html:branch}} />:null}
-                <div style={textStyle}>
-                    <BorjesComponent x={o.node} update={this.update.bind(this, -1)} opts={opts} />
-                </div>
-                {o.children.length==0?null:
-                    <BorjesTree branch="straight" tree={o.children[0]} update={this.update.bind(this, 0)} opts={opts} />}
-            </span>);
-        } else if (o.children.length == 2) {
-            var branch;
-            switch (this.props.branch) {
-                case 'straight': branch=<tr><td colSpan="2" dangerouslySetInnerHTML={{__html:straightC}}/></tr>; break;
-                case 'left': branch=<tr><td /><td dangerouslySetInnerHTML={{__html:leftN}}/></tr>; break;
-                case 'right': branch=<tr><td dangerouslySetInnerHTML={{__html:rightN}}/><td /></tr>; break;
-            }
-            return (<table style={tableStyle}>
-                    {branch}
-                    <tr><td></td><td style={{textAlign: 'left'}}>
-                        <span style={centeredTextStyle}><BorjesComponent x={o.node} update={this.update.bind(this, -1)} opts={opts} /></span>
-                    </td></tr>
-                    <tr><td style={{verticalAlign: 'top'}}>
-                        <BorjesTree branch="left" tree={o.children[0]} update={this.update.bind(this, 0)} opts={opts} />
-                    </td><td style={{verticalAlign: 'top'}}>
-                        <BorjesTree branch="right" tree={o.children[1]} update={this.update.bind(this, 1)} opts={opts} />
-                    </td></tr>
-            </table>);
-        }
+        var childrenStyle = {
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between'
+        };
+
+        return <span style={containerStyle}>
+            <div ref="nodeWrapper" style={nodeStyle}>
+                <BorjesComponent x={x.node} refresh={ub} update={this.update.bind(this, -1)} opts={opts} />
+            </div>
+            <div style={branchesStyle}>
+                {x.children.map((c, i) => {
+                    var n = this.state.branches[i] == 'l' ? leftN : rightN;
+                    return <span style={branchStyle} ref={"branch"+i} key={"branch"+i} dangerouslySetInnerHTML={{__html:n}} />;
+                })}
+            </div>
+            <div style={childrenStyle}>
+                {x.children.map((c, i) => {
+                    return <BorjesComponent ref={"child"+i} key={"child"+i} x={c} refresh={ub} update={this.update.bind(this, i)} opts={opts} />
+                })}
+            </div>
+        </span>;
     }
 
-    shouldComponentUpdate(nextProps) {
-        return nextProps.tree !== this.props.tree || nextProps.opts !== this.props.opts;
+    componentDidMount () {
+        this.updateBranches(true);
+    }
+
+    componentDidUpdate () {
+        this.updateBranches();
+    }
+
+    updateBranches (first) {
+        var rerender = false;
+        var state = this.state;
+        var cn = this.props.x.children;
+        var nw = React.findDOMNode(this.refs.nodeWrapper);
+        var half = nw.clientWidth/2;
+        var start = nw.offsetLeft;
+        for (var i=0; i<cn.length; i++) {
+            var d = React.findDOMNode(this.refs["branch"+i]);
+            var child = React.findDOMNode(this.refs["child"+i]);
+            var left = (child.offsetLeft-start+child.clientWidth/2);
+            var right = half-left;
+            if (left>half) {
+                d.style.width = (left-half)+'px';
+                d.style.left = half+'px';
+                if (state.branches[i] != 'r') {
+                    state.branches[i] = 'r';
+                    rerender = true;
+                }
+            } else {
+                d.style.width = (half-left)+'px';
+                d.style.left = left+'px';
+                if (state.branches[i] != 'l') {
+                    state.branches[i] = 'l';
+                    rerender = true;
+                }
+            }
+        }
+        if (rerender) {
+            this.setState(state);
+        }
+        if (!first) {
+            var refresh = this.props.refresh;
+            if (refresh) { refresh(); }
+        }
     }
 
 }

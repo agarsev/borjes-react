@@ -43,9 +43,14 @@ class BorjesAVM extends React.Component {
                 :<a className="borjes_variable" onClick={this.toggle.bind(this)}>{w.titles[x.index]}</a>
             }
             <span className={this.state.show?"borjes_visible":"borjes_hidden"}>
-                <BorjesComponent update={this.updateV.bind(this)} x={value} opts={this.props.opts} />
+                <BorjesComponent update={this.updateV.bind(this)} refresh={this.props.refresh} x={value} opts={this.props.opts} />
             </span>
         </span>;
+    }
+
+    componentDidUpdate () {
+        var refresh = this.props.refresh;
+        if (refresh) { refresh(); }
     }
 
 }

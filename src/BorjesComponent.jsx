@@ -56,11 +56,13 @@ class BorjesComponent extends React.Component {
         var opts = this.props.opts || {};
         opts.cpbuffer = this.props.cpbuffer || opts.cpbuffer || {};
         var update = this.props.update;
+        var refresh = this.props.refresh;
         if (typeof x !== 'object') {
             return <span>{x}</span>;
         }
         if (x instanceof Array) {
             return (<div>
+                    // TODO refresh and update
                 {x.map((y, i) => <BorjesComponent opts={opts} key={i} x={y} />)}
             </div>);
         }
@@ -93,19 +95,19 @@ class BorjesComponent extends React.Component {
                     :x.s}</span></span>;
             case 'tree':
                 return <span className="borjes">{prev}
-                    <BorjesTree className="borjes" tree={x} update={update} opts={opts} />
+                    <BorjesTree x={x} refresh={refresh} update={update} opts={opts} />
                 </span>;
             case 'tfstruct':
             case 'fstruct':
                 if (FStruct.get(x, 'symbol') !== undefined) {
                     return <span className="borjes">{Bjs.formatter.flist(x, 'symbol')}</span>;
                 } else {
-                    return <span className="borjes">{prev}<BorjesAVM x={x} update={update} opts={opts} /></span>;
+                    return <span className="borjes">{prev}<BorjesAVM x={x} refresh={refresh} update={update} opts={opts} /></span>;
                 }
             case 'variable':
-                return <span className="borjes">{prev}<BorjesVariable x={x} update={update} opts={opts} /></span>;
+                return <span className="borjes">{prev}<BorjesVariable x={x} refresh={refresh} update={update} opts={opts} /></span>;
             case 'latticeel':
-                return <span className="borjes">{prev}<BorjesLatticeElement x={x} update={update} opts={opts} /></span>;
+                return <span className="borjes">{prev}<BorjesLatticeElement x={x} refresh={refresh} update={update} opts={opts} /></span>;
         }
         return <span className="borjes">Unrecognized Object</span>;
     }

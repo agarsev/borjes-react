@@ -17,7 +17,7 @@ var sentence = B.TFS(phrase, { cat: 'S', head: 'loves', agr: Agr, agr2: Agr });
 
 B.World.bind(W, sentence);
 
-var tree = Bjs.tree(sentence, [Bjs.tree(John), Bjs.tree(loves)]);
+var tree = Bjs.tree(sentence, [Bjs.tree(John, [John, loves, John]), Bjs.tree(loves)]);
 
 var editable = false;
 var cpbuffer = {};

@@ -57,10 +57,11 @@ class BorjesAVM extends React.Component {
         var x = this.props.x;
         var opts = this.props.opts;
         var atrs = x.f;
+        var refresh = this.props.refresh;
         return (<table className="borjes_fs">
             {(x.borjes === 'tfstruct' || opts.editable)?<thead><tr>
                 <th colSpan="2" onClick={opts.editable?null:this.toggle.bind(this)}>
-                    <BorjesComponent x={x.type || Anything} update={this.updateType.bind(this)} opts={opts} />
+                    <BorjesComponent x={x.type || Anything} refresh={refresh} update={this.updateType.bind(this)} opts={opts} />
                 </th></tr></thead>:null}
             <tbody className={this.state.show?'borjes_visible':'borjes_hidden'} >
             {atrs.map(f => {
@@ -68,12 +69,17 @@ class BorjesAVM extends React.Component {
                     <td className="borjes_feat">
                         {opts.editable?<button onClick={this.rmF.bind(this, f)}>x</button>:null}
                         {f}</td>
-                    <td><BorjesComponent update={this.updateF.bind(this, f)} x={FStruct.get(x, f)} opts={opts}/></td>
+                    <td><BorjesComponent update={this.updateF.bind(this, f)} refresh={refresh} x={FStruct.get(x, f)} opts={opts}/></td>
                 </tr>);
             })}
             {opts.editable?<td><input ref="newF" type="text" /><button onClick={this.addF.bind(this)}>+</button></td>:null}
             </tbody>
         </table>);
+    }
+
+    componentDidUpdate () {
+        var refresh = this.props.refresh();
+        if (refresh) { refresh(); }
     }
 
 }
