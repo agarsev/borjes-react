@@ -49,6 +49,10 @@ class BorjesComponent extends React.Component {
                 var s = this.props.opts.signature;
                 o = Bjs.types.Lattice.element(s, Object.keys(s.bits)[0]);
                 break;
+            case 'tr':
+                var s = this.props.opts.signature;
+                o = Bjs.types.TFS(Bjs.types.Lattice.element(s, Object.keys(s.bits)[0]));
+                break;
         }
         this.props.update(o);
     }
@@ -91,6 +95,7 @@ class BorjesComponent extends React.Component {
                     return <Menu>
                         <button onClick={this.newV.bind(this, 'l')}>literal</button>
                         <button onClick={this.newV.bind(this, 'f')}>fstruct</button>
+                        <button onClick={this.newV.bind(this, 'tr')}>typed fs</button>
                         <button onClick={this.newV.bind(this, 'v')}>variable</button>
                         <button onClick={this.newV.bind(this, 't')}>type</button>
                         <button onClick={this.paste.bind(this)}>paste</button>

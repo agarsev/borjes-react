@@ -58,6 +58,9 @@ class BorjesAVM extends React.Component {
         var opts = this.props.opts;
         var atrs = x.f;
         var refresh = this.props.refresh;
+        if (x.borjes === 'tfstruct' && !opts.editable && atrs.length==0) {
+            return <span className="borjes_typerestr">{x.type.e}</span>
+        }
         return (<table className="borjes_fs">
             {(x.borjes === 'tfstruct' || opts.editable)?<thead><tr>
                 <th colSpan="2" onClick={opts.editable?null:this.toggle.bind(this)}>

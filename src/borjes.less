@@ -35,6 +35,12 @@ document {
 }
 
 .borjes_literal {
+    &::before {
+        content: "“";
+    }
+    &::after {
+        content: "”";
+    }
     font-style: italic;
     color: @literal_color;
 }
@@ -42,6 +48,11 @@ document {
 .borjes_latticeel {
     font-style: italic;
     color: @lattice_color;
+}
+
+.borjes_typerestr {
+    font-style: italic;
+    color: @literal_color;
 }
 
 .borjes_variable {
