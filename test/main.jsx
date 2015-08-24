@@ -28,7 +28,7 @@ function render (val) {
     if (val!==undefined) {
         current = val;
     }
-    React.render(<BorjesComponent x={current} update={render} cpbuffer={cpbuffer} opts={{editable, signature:L}} />, document.getElementById('area'));
+    React.render(<BorjesComponent x={current} update={render} cpbuffer={cpbuffer} opts={{editable, signature:L, branchHeight: 30}} />, document.getElementById('area'));
 }
 
 render();

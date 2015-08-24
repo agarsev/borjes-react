@@ -3,21 +3,13 @@
 import React from 'react';
 import BorjesComponent from './BorjesComponent';
 
-var branchHeight = 15;
-
 var branch= '<svg xmlns="http://www.w3.org/2000/svg"'
            +' xmlns:xlink="http://www.w3.org/1999/xlink"'
-           +' width="100%" height="0.6em"'
+           +' width="100%" height="100%"'
            +' preserveAspectRatio="none"'
            +' viewBox="0 0 100 100">';
-var straightC = branch
+var straightN = branch
            +'  <line x1="50" y1="100" x2="50" y2="0" style="stroke:#000000;" vector-effect="non-scaling-stroke"/>'
-           +'</svg>';
-var leftC = branch
-           +'  <line x1="50" y1="100" x2="100" y2="0" style="stroke:#000000;" vector-effect="non-scaling-stroke"/>'
-           +'</svg>';
-var rightC = branch
-           +'  <line x1="50" y1="100" x2="0" y2="0" style="stroke:#000000;" vector-effect="non-scaling-stroke"/>'
            +'</svg>';
 var leftN = branch
            +'  <line x1="0" y1="100" x2="100" y2="0" style="stroke:#000000;" vector-effect="non-scaling-stroke"/>'
@@ -25,6 +17,11 @@ var leftN = branch
 var rightN = branch
            +'  <line x1="100" y1="100" x2="0" y2="0" style="stroke:#000000;" vector-effect="non-scaling-stroke"/>'
            +'</svg>';
+var branchN = {
+    'c': straightN,
+    'l': leftN,
+    'r': rightN
+};
 
 class BorjesTree extends React.Component {
 
@@ -48,6 +45,7 @@ class BorjesTree extends React.Component {
         var opts = this.props.opts;
         var ub = this.updateBranches.bind(this);
 
+        var branchHeight = this.props.opts.branchHeight || "1em";
         var containerStyle = {
             display: 'inline-flex',
             flexDirection: 'column'
@@ -78,7 +76,7 @@ class BorjesTree extends React.Component {
             </div>
             <div style={branchesStyle}>
                 {x.children.map((c, i) => {
-                    var n = this.state.branches[i] == 'l' ? leftN : rightN;
+                    var n = branchN[this.state.branches[i]];
                     return <span style={branchStyle} ref={"branch"+i} key={"branch"+i} dangerouslySetInnerHTML={{__html:n}} />;
                 })}
             </div>
@@ -110,7 +108,14 @@ class BorjesTree extends React.Component {
             var child = React.findDOMNode(this.refs["child"+i]);
             var left = (child.offsetLeft-start+child.clientWidth/2);
             var right = half-left;
-            if (left>half) {
+            if (left>half-2 && left<half+2) {
+                d.style.width = '10px';
+                d.style.left = (half-5)+'px';
+                if (state.branches[i] != 'c') {
+                    state.branches[i] = 'c';
+                    rerender = true;
+                }
+            } else if (left>half) {
                 d.style.width = (left-half)+'px';
                 d.style.left = half+'px';
                 if (state.branches[i] != 'r') {
