@@ -108,9 +108,7 @@ class BorjesComponent extends React.Component {
                     <input type="text" value={x.s} onChange={this.updateLiteral.bind(this)} />
                     :x.s}</span></span>;
             case 'tree':
-                return <span className="borjes">{prev}
-                    <BorjesTree x={x} refresh={refresh} update={update} opts={opts} />
-                </span>;
+                return <BorjesTree x={x} refresh={refresh} update={update} opts={opts} />;
             case 'tfstruct':
             case 'fstruct':
                 if (FStruct.get(x, 'symbol') !== undefined) {
