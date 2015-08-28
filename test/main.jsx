@@ -4,11 +4,29 @@ import Bjs from "borjes";
 var B = Bjs.types;
 
 import BorjesComponent from "../dist/BorjesComponent";
+import BorjesProtoLattice from "../dist/BorjesProtoLattice";
 
-var L = B.Lattice(10);
-var noun = B.Lattice.add(L, 'noun');
-var verb = B.Lattice.add(L, 'verb');
-var phrase = B.Lattice.add(L, 'phrase', [ noun, verb ]);
+var proto = {
+    symbol: {
+        word: {
+            noun: null,
+            verb: null
+        },
+        phrase: null
+    },
+    case: {
+        nom: null,
+        acc: null,
+    },
+    case_verb: {
+        case: null,
+        verb: null
+    }
+};
+var L = B.Lattice.fromProto(proto);
+var noun = B.Lattice.element(L, 'noun');
+var verb = B.Lattice.element(L, 'verb');
+var phrase = B.Lattice.element(L, 'verb');
 var W = B.World();
 var Agr = B.Variable(W, B.FStruct({ gender: B.Literal('masc'), person: B.Literal('3sg') }));
 var John = B.TFS(noun, { cat: 'NP', head: B.Literal('John'), agr: Agr });
@@ -38,3 +56,5 @@ editB.onclick = function () {
     editable = !editable;
     render();
 }
+
+React.render(<BorjesProtoLattice x={proto} />, document.getElementById('latt'));
