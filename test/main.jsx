@@ -42,11 +42,17 @@ var cpbuffer = {};
 
 var current = tree;
 
+function updateSig (p) {
+    L = B.Lattice.fromProto(p);
+    render();
+}
+
 function render (val) {
     if (val!==undefined) {
         current = val;
     }
     React.render(<BorjesComponent x={current} update={render} cpbuffer={cpbuffer} opts={{editable, signature:L, branchHeight: 30}} />, document.getElementById('area'));
+    React.render(<BorjesProtoLattice x={proto} update={updateSig} opts={{editable}} />, document.getElementById('latt'));
 }
 
 render();
@@ -56,5 +62,3 @@ editB.onclick = function () {
     editable = !editable;
     render();
 }
-
-React.render(<BorjesProtoLattice x={proto} />, document.getElementById('latt'));
