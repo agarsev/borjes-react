@@ -90,6 +90,8 @@ class BorjesComponent extends React.Component {
             </Menu>;
         }
         switch (x.borjes) {
+            case 'nothing':
+                console.log("Borjes-react: displaying nothing ", x);
             case 'anything':
                 if (opts.editable) {
                     return <Menu>
@@ -101,7 +103,7 @@ class BorjesComponent extends React.Component {
                         <button onClick={this.paste.bind(this)}>paste</button>
                     </Menu>;
                 } else {
-                    return <span className="borjes_literal">⊤</span>;
+                    return <span className="borjes_typerestr">{x.borjes==='anything'?'⊤':'⊥'}</span>;
                 }
             case 'literal':
                 return <span className="borjes">{prev}<span className="borjes_literal">{opts.editable?
@@ -121,6 +123,7 @@ class BorjesComponent extends React.Component {
             case 'latticeel':
                 return <span className="borjes">{prev}<BorjesLatticeElement x={x} refresh={refresh} update={update} opts={opts} /></span>;
         }
+        console.log("Borjes-react: unrecognized object ", x);
         return <span className="borjes">Unrecognized Object</span>;
     }
 
