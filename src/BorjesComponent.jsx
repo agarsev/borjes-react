@@ -29,6 +29,9 @@ class BorjesComponent extends React.Component {
     paste () {
         var p = this.props.opts.cpbuffer.v;
         if (p !== undefined) {
+            if (p.borjes_bound) {
+                delete p.borjes_bound;
+            }
             this.props.update(Bjs.types.copy(p));
         }
     }

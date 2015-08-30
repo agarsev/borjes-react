@@ -70,7 +70,7 @@ class BorjesTree extends React.Component {
             justifyContent: 'space-between'
         };
 
-        return <span style={containerStyle}>
+        return <span className="borjes" style={containerStyle}>
             <div ref="nodeWrapper" style={nodeStyle}>
                 <BorjesComponent x={x.node} refresh={ub} update={this.update.bind(this, -1)} opts={opts} />
             </div>
