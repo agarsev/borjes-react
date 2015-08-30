@@ -82,7 +82,7 @@ class BorjesAVM extends React.Component {
     }
 
     componentDidUpdate () {
-        var refresh = this.props.refresh();
+        var refresh = this.props.refresh;
         if (refresh) { refresh(); }
     }
 
