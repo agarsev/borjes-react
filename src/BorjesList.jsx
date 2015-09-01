@@ -29,7 +29,7 @@ class BorjesList extends React.Component {
         var x = this.props.x;
         var opts = this.props.opts;
         if (x.borjes === 'list_empty') {
-            return <span>{"<>"}</span>;
+            return <span className="borjes_list"></span>;
         }
         var aft = [];
         var i = 0;
@@ -42,14 +42,12 @@ class BorjesList extends React.Component {
                 rest = rest.rest;
             }
         }
-        return <span>
-            {"<"}
+        return <span className="borjes_list">
             <BorjesComponent x={x.first} refresh={this.props.refresh} update={this.updateFst.bind(this)} opts={opts} />
             {aft}
             {rest.borjes !== 'list_empty'?",":null}
             {rest.borjes !== 'list_empty'?<BorjesComponent x={rest} refresh={this.props.refresh} update={this.updateRest.bind(this)} opts={opts} />:null}
             {rest.borjes === 'list_empty' && opts.editable?<button onClick={this.append.bind(this)}>+</button>:null}
-            {">"}
         </span>;
     }
 

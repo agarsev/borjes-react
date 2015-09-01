@@ -130,6 +130,7 @@ class BorjesComponent extends React.Component {
                 } else {
                     return <span className="borjes">{prev}<BorjesAVM ref="child" x={x} refresh={refresh} update={update} opts={opts} /></span>;
                 }
+            case 'list_empty':
             case 'list':
                 return <span className="borjes">{prev}<BorjesList x={x} refresh={refresh} update={update} opts={opts} /></span>;
             case 'variable':
