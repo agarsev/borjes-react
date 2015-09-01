@@ -40,7 +40,7 @@ class BorjesComponent extends React.Component {
     newV (type) {
         var o;
         switch (type) {
-            case 'l':
+            case 'lt':
                 o = Bjs.types.Literal('');
                 break;
             case 'f':
@@ -56,6 +56,12 @@ class BorjesComponent extends React.Component {
             case 'tr':
                 var s = this.props.opts.signature;
                 o = Bjs.types.TFS(Bjs.types.Lattice.element(s, Object.keys(s.bits)[0]));
+                break;
+            case 'li':
+                o = Bjs.types.List(Bjs.types.Anything);
+                break;
+            case 'le':
+                o = Bjs.types.List();
                 break;
         }
         this.props.update(o);
@@ -99,12 +105,14 @@ class BorjesComponent extends React.Component {
             case 'anything':
                 if (opts.editable) {
                     return <Menu>
-                        <button onClick={this.newV.bind(this, 'l')}>literal</button>
-                        <button onClick={this.newV.bind(this, 'f')}>fstruct</button>
-                        <button onClick={this.newV.bind(this, 'tr')}>typed fs</button>
-                        <button onClick={this.newV.bind(this, 'v')}>variable</button>
-                        <button onClick={this.newV.bind(this, 't')}>type</button>
                         <button onClick={this.paste.bind(this)}>paste</button>
+                        <button onClick={this.newV.bind(this, 'tr')}>typed fs</button>
+                        <button onClick={this.newV.bind(this, 'lt')}>literal</button>
+                        <button onClick={this.newV.bind(this, 'f')}>fstruct</button>
+                        <button onClick={this.newV.bind(this, 'v')}>variable</button>
+                        <button onClick={this.newV.bind(this, 'li')}>list</button>
+                        <button onClick={this.newV.bind(this, 'le')}>elist</button>
+                        <button onClick={this.newV.bind(this, 't')}>type</button>
                     </Menu>;
                 } else {
                     return <span className="borjes_typerestr">{x.borjes==='anything'?'⊤':'⊥'}</span>;
@@ -123,7 +131,7 @@ class BorjesComponent extends React.Component {
                     return <span className="borjes">{prev}<BorjesAVM ref="child" x={x} refresh={refresh} update={update} opts={opts} /></span>;
                 }
             case 'list':
-                return <BorjesList x={x} refresh={refresh} update={update} opts={opts} />;
+                return <span className="borjes">{prev}<BorjesList x={x} refresh={refresh} update={update} opts={opts} /></span>;
             case 'variable':
                 return <span className="borjes">{prev}<BorjesVariable ref="child" x={x} refresh={refresh} update={update} opts={opts} /></span>;
             case 'latticeel':
