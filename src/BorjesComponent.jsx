@@ -4,12 +4,14 @@ import React from 'react';
 import Bjs from 'borjes';
 
 var FStruct = Bjs.types.FStruct;
+var Anything = Bjs.types.Anything;
 
 import BorjesTree from './BorjesTree';
 import BorjesAVM from './BorjesAVM';
 import BorjesList from './BorjesList';
 import BorjesVariable from './BorjesVariable';
 import BorjesLatticeElement from './BorjesLatticeElement';
+import BorjesDisjunct from './BorjesDisjunct';
 
 import Menu from './Menu';
 
@@ -20,7 +22,7 @@ class BorjesComponent extends React.Component {
     }
 
     remove () {
-        this.props.update(Bjs.types.Anything);
+        this.props.update(Anything);
     }
 
     copy () {
@@ -47,7 +49,7 @@ class BorjesComponent extends React.Component {
                 o = Bjs.types.FStruct();
                 break;
             case 'v':
-                o = Bjs.types.Variable(this.props.opts.world, Bjs.types.Anything);
+                o = Bjs.types.Variable(this.props.opts.world, Anything);
                 break;
             case 't':
                 var s = this.props.opts.signature;
@@ -58,10 +60,13 @@ class BorjesComponent extends React.Component {
                 o = Bjs.types.TFS(Bjs.types.Lattice.element(s, Object.keys(s.bits)[0]));
                 break;
             case 'li':
-                o = Bjs.types.List(Bjs.types.Anything);
+                o = Bjs.types.List(Anything);
                 break;
             case 'le':
                 o = Bjs.types.List();
+                break;
+            case 'd':
+                o = Bjs.types.Disjunct(Anything, Anything);
                 break;
         }
         this.props.update(o);
@@ -113,6 +118,7 @@ class BorjesComponent extends React.Component {
                         <button onClick={this.newV.bind(this, 'li')}>list</button>
                         <button onClick={this.newV.bind(this, 'le')}>elist</button>
                         <button onClick={this.newV.bind(this, 't')}>type</button>
+                        <button onClick={this.newV.bind(this, 'd')}>disjunct</button>
                     </Menu>;
                 } else {
                     return <span className="borjes_typerestr">{x.borjes==='anything'?'⊤':'⊥'}</span>;
@@ -137,6 +143,8 @@ class BorjesComponent extends React.Component {
                 return <span className="borjes">{prev}<BorjesVariable ref="child" x={x} refresh={refresh} update={update} opts={opts} /></span>;
             case 'latticeel':
                 return <span className="borjes">{prev}<BorjesLatticeElement x={x} refresh={refresh} update={update} opts={opts} /></span>;
+            case 'disjunct':
+                return <span className="borjes">{prev}<BorjesDisjunct x={x} refresh={refresh} update={update} opts={opts} /></span>;
         }
         console.log("Borjes-react: unrecognized object ", x);
         return <span className="borjes">Unrecognized Object</span>;
