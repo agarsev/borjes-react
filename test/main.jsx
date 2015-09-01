@@ -29,13 +29,15 @@ var verb = B.Lattice.element(L, 'verb');
 var phrase = B.Lattice.element(L, 'verb');
 var W = B.World();
 var Agr = B.Variable(W, B.FStruct({ gender: B.Literal('masc'), person: B.Literal('3sg') }));
-var John = B.TFS(noun, { cat: 'NP', head: B.Literal('John'), agr: Agr });
+var list = B.List(B.Literal('John'), B.List(B.Literal('loves'), B.List(B.Literal('Mary'))));
+var John = B.TFS(noun, { phon: list, cat: 'NP', head: B.Literal('John'), agr: Agr });
 var loves = B.TFS(verb, { cat: 'VP', head: B.Literal('loves') });
-var sentence = B.TFS(phrase, { cat: 'S', head: 'loves', agr: Agr, agr2: Agr });
+var list2 = B.List(B.Literal('John'), B.Variable(W, B.List(B.Literal('loves'), B.List(B.Literal('Mary')))));
+var sentence = B.TFS(phrase, { phon: list2, cat: 'S', head: 'loves', agr: Agr, agr2: Agr });
 
 B.World.bind(W, sentence);
 
-var tree = Bjs.tree(sentence, [Bjs.tree(John, [B.copy(John), loves, B.copy(John)]), Bjs.tree(B.copy(loves))]);
+var tree = Bjs.Tree(sentence, [Bjs.Tree(John, [B.copy(John), loves, B.copy(John)]), Bjs.Tree(B.copy(loves))]);
 
 var editable = false;
 var cpbuffer = {};

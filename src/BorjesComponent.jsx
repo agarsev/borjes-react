@@ -7,6 +7,7 @@ var FStruct = Bjs.types.FStruct;
 
 import BorjesTree from './BorjesTree';
 import BorjesAVM from './BorjesAVM';
+import BorjesList from './BorjesList';
 import BorjesVariable from './BorjesVariable';
 import BorjesLatticeElement from './BorjesLatticeElement';
 
@@ -121,6 +122,8 @@ class BorjesComponent extends React.Component {
                 } else {
                     return <span className="borjes">{prev}<BorjesAVM ref="child" x={x} refresh={refresh} update={update} opts={opts} /></span>;
                 }
+            case 'list':
+                return <BorjesList x={x} refresh={refresh} update={update} opts={opts} />;
             case 'variable':
                 return <span className="borjes">{prev}<BorjesVariable ref="child" x={x} refresh={refresh} update={update} opts={opts} /></span>;
             case 'latticeel':
