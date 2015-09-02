@@ -36,9 +36,8 @@ var loves = B.TFS(verb, { cat: 'VP', head: B.Literal('loves') });
 var list2 = B.List(B.Literal('John'), B.Variable(W, B.List(B.Literal('loves'), B.List(B.Literal('Mary')))));
 var sentence = B.TFS(phrase, { phon: list2, cat: 'S', head: 'loves', agr: Agr, agr2: Agr });
 
-B.World.bind(W, sentence);
-
-var tree = Bjs.Tree(sentence, [Bjs.Tree(John, [B.copy(John), loves, B.copy(John)]), Bjs.Tree(B.copy(loves))]);
+var tree = Bjs.Tree(sentence, [Bjs.Tree(John, [B.copy(John), loves, B.copy(John)]), Bjs.Tree(B.copy(loves), Bjs.Tree(B.copy(loves)))]);
+B.World.bind(W, tree);
 
 var editable = false;
 var cpbuffer = {};

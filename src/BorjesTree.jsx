@@ -67,12 +67,24 @@ class BorjesTree extends React.Component {
         var childrenStyle = {
             display: 'flex',
             flexDirection: 'row',
-            justifyContent: 'space-between'
+            justifyContent: 'center',
+            margin: 2
         };
+
+        function copy_opts(child) {
+            var r = {};
+            for (var k in opts) {
+                r[k] = opts[k];
+            }
+            if (child.borjes_bound) {
+                r.world = child.borjes_bound;
+            }
+            return r;
+        }
 
         return <span className="borjes" style={containerStyle}>
             <div ref="nodeWrapper" style={nodeStyle}>
-                <BorjesComponent x={x.node} refresh={ub} update={this.update.bind(this, -1)} opts={opts} />
+                <BorjesComponent x={x.node} refresh={ub} update={this.update.bind(this, -1)} opts={copy_opts(x.node)} />
             </div>
             <div style={branchesStyle}>
                 {x.children.map((c, i) => {
@@ -82,7 +94,7 @@ class BorjesTree extends React.Component {
             </div>
             <div style={childrenStyle}>
                 {x.children.map((c, i) => {
-                    return <BorjesComponent ref={"child"+i} key={"child"+i} x={c} refresh={ub} update={this.update.bind(this, i)} opts={opts} />
+                    return <BorjesComponent ref={"child"+i} key={"child"+i} x={c} refresh={ub} update={this.update.bind(this, i)} opts={copy_opts(c)} />
                 })}
             </div>
         </span>;

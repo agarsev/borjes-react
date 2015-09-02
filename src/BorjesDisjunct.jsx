@@ -29,7 +29,7 @@ class BorjesDisjunct extends React.Component {
         var x = this.props.x;
         var opts = this.props.opts;
         return <span className="borjes_disjunct">
-            {x.a.map((a, i) => <span>
+            {x.a.map((a, i) => <span key={'alt'+i}>
                 {i>0?'⋁':null}
                 {opts.editable?<button onClick={this.remove.bind(this, i)}>x</button>:null}
                 <BorjesComponent x={a} refresh={this.props.refresh} update={this.update.bind(this, i)} opts={opts} />
