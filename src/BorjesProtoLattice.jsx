@@ -7,6 +7,9 @@ class BorjesProtoLattice extends React.Component {
 
     update (el, sub) {
         var x = this.props.x;
+        if (sub !== null && Object.keys(sub).length == 0) {
+            sub = null;
+        }
         x[el] = sub;
         this.props.update(x);
     }

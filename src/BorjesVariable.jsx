@@ -36,7 +36,7 @@ class BorjesAVM extends React.Component {
     render () {
         var x = this.props.x;
         var w = this.props.opts.world;
-        var value = World.resolve(w, x);
+        var value = World.get(w, x.index);
         return <span>
             {this.props.opts.editable
                 ?<input className="borjes_variable" type="text" value={w.titles[x.index]} onChange={this.updateT.bind(this)} />
