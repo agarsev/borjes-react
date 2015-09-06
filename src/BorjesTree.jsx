@@ -27,7 +27,11 @@ class BorjesTree extends React.Component {
 
     constructor (props) {
         super(props);
-        this.state = { branches: this.props.x.children.map(() => 'l') };
+        var s = props.beginExpanded!==undefined?props.beginExpanded:true;
+        this.state = {
+            branches: this.props.x.children.map(() => 'l'),
+            shown: this.props.x.children.map(() => s)
+        };
     }
 
     update (who, val) {
@@ -38,6 +42,13 @@ class BorjesTree extends React.Component {
             x.children[who] = val;
         }
         this.props.update(x);
+    }
+
+    toggleChild (i) {
+        var s = this.state.shown;
+        s[i] = !s[i];
+        this.setState({shown: s});
+        this.forceUpdate();
     }
 
     render () {
@@ -60,6 +71,7 @@ class BorjesTree extends React.Component {
             height: branchHeight
         };
         var branchStyle = {
+            cursor: 'pointer',
             position: 'absolute',
             height: branchHeight,
             top: 0
@@ -89,13 +101,14 @@ class BorjesTree extends React.Component {
             <div style={branchesStyle}>
                 {x.children.map((c, i) => {
                     var n = branchN[this.state.branches[i]];
-                    return <span style={branchStyle} ref={"branch"+i} key={"branch"+i} dangerouslySetInnerHTML={{__html:n}} />;
+                    return <span onClick={this.toggleChild.bind(this, i)} style={branchStyle} ref={"branch"+i} key={"branch"+i} dangerouslySetInnerHTML={{__html:n}} />;
                 })}
             </div>
             <div style={childrenStyle}>
-                {x.children.map((c, i) => {
-                    return <BorjesComponent ref={"child"+i} key={"child"+i} x={c} refresh={ub} update={this.update.bind(this, i)} opts={copy_opts(c)} />
-                })}
+                {x.children.map((c, i) => <span ref={"child"+i} key={"child"+i}>{this.state.shown[i]
+                        ?<BorjesComponent x={c} refresh={ub} update={this.update.bind(this, i)} opts={copy_opts(c)} />
+                        :<button onClick={this.toggleChild.bind(this,i)}>+</button>}
+                </span>)}
             </div>
         </span>;
     }
