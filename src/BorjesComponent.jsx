@@ -12,6 +12,8 @@ import BorjesList from './BorjesList';
 import BorjesVariable from './BorjesVariable';
 import BorjesLatticeElement from './BorjesLatticeElement';
 import BorjesDisjunct from './BorjesDisjunct';
+import BorjesSet from './BorjesSet';
+import BorjesSum from './BorjesSum';
 
 import Menu from './Menu';
 
@@ -68,6 +70,12 @@ class BorjesComponent extends React.Component {
             case 'd':
                 o = Bjs.types.Disjunct(Anything, Anything);
                 break;
+            case 'se':
+                o = Bjs.types.Set();
+                break;
+            case 'ss':
+                o = Bjs.types.Set.sum(Anything, Bjs.types.Variable(this.props.opts.world));
+                break;
         }
         this.props.update(o);
     }
@@ -112,16 +120,18 @@ class BorjesComponent extends React.Component {
                     return <Menu>
                         <button onClick={this.paste.bind(this)}>paste</button>
                         <button onClick={this.newV.bind(this, 'tr')}>typed fs</button>
+                        <button onClick={this.newV.bind(this, 'v')}>variable</button>
                         <button onClick={this.newV.bind(this, 'lt')}>literal</button>
                         <button onClick={this.newV.bind(this, 'f')}>fstruct</button>
-                        <button onClick={this.newV.bind(this, 'v')}>variable</button>
+                        <button onClick={this.newV.bind(this, 'd')}>disjunct</button>
+                        <button onClick={this.newV.bind(this, 'se')}>set</button>
+                        <button onClick={this.newV.bind(this, 'ss')}>union</button>
                         <button onClick={this.newV.bind(this, 'li')}>list</button>
                         <button onClick={this.newV.bind(this, 'le')}>elist</button>
                         <button onClick={this.newV.bind(this, 't')}>type</button>
-                        <button onClick={this.newV.bind(this, 'd')}>disjunct</button>
                     </Menu>;
                 } else {
-                    return <span className="borjes_typerestr">{x.borjes==='anything'?'⊤':'⊥'}</span>;
+                    return <span className="borjes_typerestr">{x.borjes=='nothing'?'⊥':''}</span>;
                 }
             case 'literal':
                 return <span className="borjes">{prev}<span className="borjes_literal">{opts.editable?
@@ -145,6 +155,10 @@ class BorjesComponent extends React.Component {
                 return <span className="borjes">{prev}<BorjesLatticeElement x={x} refresh={refresh} update={update} opts={opts} /></span>;
             case 'disjunct':
                 return <span className="borjes">{prev}<BorjesDisjunct x={x} refresh={refresh} update={update} opts={opts} /></span>;
+            case 'set':
+                return <span className="borjes">{prev}<BorjesSet x={x} refresh={refresh} update={update} opts={opts} /></span>;
+            case 'set_sum':
+                return <span className="borjes">{prev}<BorjesSum x={x} refresh={refresh} update={update} opts={opts} /></span>;
         }
         console.log("Borjes-react: unrecognized object ", x);
         return <span className="borjes">Unrecognized Object</span>;
