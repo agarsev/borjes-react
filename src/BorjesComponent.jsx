@@ -74,7 +74,7 @@ class BorjesComponent extends React.Component {
                 o = Bjs.types.Set();
                 break;
             case 'ss':
-                o = Bjs.types.Set.sum(Anything, Bjs.types.Variable(this.props.opts.world));
+                o = Bjs.types.Set.sum(Anything, Bjs.types.Variable(this.props.opts.world, Anything));
                 break;
         }
         this.props.update(o);
