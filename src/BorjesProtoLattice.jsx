@@ -29,9 +29,19 @@ class BorjesProtoLattice extends React.Component {
         this.props.update(x);
     }
 
+    cpEl (el) {
+        this.props.opts.cpbuffer.v = {
+            borjes: 'latticeel',
+            l: this.props.name || this.props.opts.name,
+            e: el
+        };
+    }
+
     render () {
         var x = this.props.x;
         var opts = this.props.opts;
+        opts.cpbuffer = this.props.cpbuffer || opts.cpbuffer || {};
+        opts.name = this.props.name || opts.name;
         var contStyle = {
             display: 'flex',
             flexDirection: 'column'
@@ -58,6 +68,7 @@ class BorjesProtoLattice extends React.Component {
                 var after = first && (opts.editable || x[k] !== null);
                 return <span key={k+(i++)} style={rowStyle}>
                     {opts.editable?<button className="small" onClick={this.remEl.bind(this, k)}>x</button>:null}
+                    {opts.editable && opts.name?<button className="small" onClick={this.cpEl.bind(this, k)}>c</button>:null}
                     <span className={first?"borjes_lpel_first":"borjes_lpel_ref"}>{k}</span>
                     {after?'—':null}
                     {after?<BorjesProtoLattice x={x[k] || {}} opts={opts} update={this.update.bind(this, k)} />:null}

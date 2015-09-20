@@ -54,7 +54,7 @@ function render (val) {
         current = val;
     }
     React.render(<BorjesComponent x={current} update={render} cpbuffer={cpbuffer} opts={{editable, signature:L, branchHeight: 30}} />, document.getElementById('area'));
-    React.render(<BorjesProtoLattice x={proto} update={updateSig} opts={{editable}} />, document.getElementById('latt'));
+    React.render(<BorjesProtoLattice name={L.name} x={proto} update={updateSig} cpbuffer={cpbuffer} opts={{editable}} />, document.getElementById('latt'));
 }
 
 render();
