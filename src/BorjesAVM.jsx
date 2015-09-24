@@ -15,7 +15,8 @@ class BorjesAVM extends React.Component {
         var show = this.props.opts.show;
         if (show === undefined) { show = true; }
         var showF = {};
-        this.props.x.f.forEach(f => showF[f] = (f !== 'head_dtr' && f !== 'nonh_dtr'));
+        var x = this.props.x;
+        x.f.forEach(f => showF[f] = !(this.props.opts.hide_more && (f === 'head_dtr' || f === 'nonh_dtr')));
         this.state = { show, showF };
     }
 

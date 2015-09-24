@@ -30,7 +30,7 @@ class BorjesTree extends React.Component {
         var s = true;
         if (props.beginExpanded !== undefined) {
             s = props.beginExpanded;
-        } else if (this.props.x.node && this.props.x.node.borjes === 'tfstruct') {
+        } else if (this.props.opts && this.props.opts.hide_more && this.props.x.node && this.props.x.node.borjes === 'tfstruct') {
             s = false;
         }
         this.state = {
