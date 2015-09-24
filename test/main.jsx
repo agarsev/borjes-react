@@ -34,7 +34,7 @@ var list = B.List(B.Literal('John'), B.List(B.Literal('loves'), B.List(B.Literal
 var John = B.TFS(noun, { phon: list, cat: disj, head: B.Literal('John'), agr: Agr });
 var loves = B.TFS(verb, { cat: 'VP', head: B.Literal('loves') });
 var list2 = B.List(B.Literal('John'), B.Variable(W, B.List(B.Literal('loves'), B.List(B.Literal('Mary')))));
-var sentence = B.TFS(phrase, { phon: list2, cat: 'S', head: 'loves', agr: Agr, agr2: Agr });
+var sentence = B.FStruct({ phon: list2, cat: 'S', head: 'loves', head_dtr: Agr, nonh_dtr: Agr });
 
 var tree = Bjs.Tree(sentence, [Bjs.Tree(John, [B.copy(John), loves, B.copy(John)]), Bjs.Tree(B.copy(loves), Bjs.Tree(B.copy(loves)))]);
 B.World.bind(W, tree);

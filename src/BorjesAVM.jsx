@@ -14,11 +14,20 @@ class BorjesAVM extends React.Component {
         super(props);
         var show = this.props.opts.show;
         if (show === undefined) { show = true; }
-        this.state = { show };
+        var showF = {};
+        this.props.x.f.forEach(f => showF[f] = (f !== 'head_dtr' && f !== 'nonh_dtr'));
+        this.state = { show, showF };
     }
 
     toggle (e) {
         this.setState({ show: !this.state.show });
+        e.stopPropagation();
+    }
+
+    toggleF (f, e) {
+        var showF = this.state.showF;
+        showF[f] = !showF[f];
+        this.setState({ showF });
         e.stopPropagation();
     }
 
@@ -68,12 +77,20 @@ class BorjesAVM extends React.Component {
                 </th></tr></thead>:null}
             <tbody className={this.state.show?'borjes_visible':'borjes_hidden'} >
             {atrs.map(f => {
+                var val = FStruct.get(x, f);
+                var fname = f;
+                if (!opts.editable) {
+                    while (val.borjes === 'fstruct' && val.f.length == 1) {
+                        fname += ' | '+val.f[0];
+                        val = FStruct.get(val, val.f[0]);
+                    }
+                }
                 return (<tr key={f}>
                     <td className="borjes_feat">
                         {opts.editable?<button className="small"
                             onClick={this.rmF.bind(this, f)}>x</button>:null}
-                        {f}</td>
-                    <td><BorjesComponent update={this.updateF.bind(this, f)} refresh={refresh} x={FStruct.get(x, f)} opts={opts}/></td>
+                        <span onClick={this.toggleF.bind(this, f)}>{fname}</span></td>
+                    <td>{this.state.showF[f]?<BorjesComponent update={this.updateF.bind(this, f)} refresh={refresh} x={val} opts={opts}/>:null}</td>
                 </tr>);
             })}
             {opts.editable?<td><input ref="newF" type="text" /><button onClick={this.addF.bind(this)}>+</button></td>:null}

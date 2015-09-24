@@ -27,7 +27,12 @@ class BorjesTree extends React.Component {
 
     constructor (props) {
         super(props);
-        var s = props.beginExpanded!==undefined?props.beginExpanded:true;
+        var s = true;
+        if (props.beginExpanded !== undefined) {
+            s = props.beginExpanded;
+        } else if (this.props.x.node && this.props.x.node.borjes === 'tfstruct') {
+            s = false;
+        }
         this.state = {
             branches: this.props.x.children.map(() => 'l'),
             shown: this.props.x.children.map(() => s)
