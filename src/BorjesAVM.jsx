@@ -43,6 +43,9 @@ class BorjesAVM extends React.Component {
         if (f.length > 0) {
             var x = this.props.x;
             FStruct.set(x, f, Anything);
+            var s = this.state;
+            s.showF[f] = true;
+            this.setState(s);
             this.props.update(x);
         }
     }
