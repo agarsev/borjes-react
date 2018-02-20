@@ -15,7 +15,7 @@ class BorjesProtoLattice extends React.Component {
     }
 
     addEl () {
-        var el = React.findDOMNode(this.refs.newEl).value;
+        var el = this.newEl.value;
         var x = this.props.x;
         if (el.length > 0 && x[el] === undefined) {
             x[el] = null;
@@ -74,7 +74,7 @@ class BorjesProtoLattice extends React.Component {
                     {after?<BorjesProtoLattice x={x[k] || {}} opts={opts} update={this.update.bind(this, k)} />:null}
                 </span>;
             })}
-            {opts.editable?<span><input ref="newEl" type="text" /><button onClick={this.addEl.bind(this)}>+</button></span>:null}
+            {opts.editable?<span><input ref={d=>this.newEl=d} type="text" /><button onClick={this.addEl.bind(this)}>+</button></span>:null}
         </span>;
     }
 

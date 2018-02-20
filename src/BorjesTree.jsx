@@ -33,6 +33,7 @@ class BorjesTree extends React.Component {
         } else if (this.props.opts && this.props.opts.hide_more && this.props.x.node && this.props.x.node.borjes === 'tfstruct') {
             s = false;
         }
+        this.dom = {};
         this.state = {
             branches: this.props.x.children.map(() => 'l'),
             shown: this.props.x.children.map(() => s)
@@ -100,17 +101,17 @@ class BorjesTree extends React.Component {
         }
 
         return <span className="borjes" style={containerStyle}>
-            <div ref="nodeWrapper" style={nodeStyle}>
+            <div ref={d=>this.dom.nodeWrapper=d} style={nodeStyle}>
                 <BorjesComponent x={x.node} refresh={ub} update={this.update.bind(this, -1)} opts={copy_opts(x.node)} />
             </div>
             <div style={branchesStyle}>
                 {x.children.map((c, i) => {
                     var n = branchN[this.state.branches[i]];
-                    return <span onClick={this.toggleChild.bind(this, i)} style={branchStyle} ref={"branch"+i} key={"branch"+i} dangerouslySetInnerHTML={{__html:n}} />;
+                    return <span onClick={this.toggleChild.bind(this, i)} style={branchStyle} ref={d=>this.dom["branch"+i]=d} key={"branch"+i} dangerouslySetInnerHTML={{__html:n}} />;
                 })}
             </div>
             <div style={childrenStyle}>
-                {x.children.map((c, i) => <span ref={"child"+i} key={"child"+i}>{this.state.shown[i]
+                {x.children.map((c, i) => <span ref={d=>this.dom["child"+i]=d} key={"child"+i}>{this.state.shown[i]
                         ?<BorjesComponent x={c} refresh={ub} update={this.update.bind(this, i)} opts={copy_opts(c)} />
                         :<button onClick={this.toggleChild.bind(this,i)}>+</button>}
                 </span>)}
@@ -130,12 +131,14 @@ class BorjesTree extends React.Component {
         var rerender = false;
         var state = this.state;
         var cn = this.props.x.children;
-        var nw = React.findDOMNode(this.refs.nodeWrapper);
+        var nw = this.dom.nodeWrapper;
+        if (!nw) return;
         var half = nw.clientWidth/2;
         var start = nw.offsetLeft;
         for (var i=0; i<cn.length; i++) {
-            var d = React.findDOMNode(this.refs["branch"+i]);
-            var child = React.findDOMNode(this.refs["child"+i]);
+            var d = this.dom["branch"+i];
+            var child = this.dom["child"+i];
+            if (!d || !child) continue;
             var left = (child.offsetLeft-start+child.clientWidth/2);
             var right = half-left;
             if (left>half-2 && left<half+2) {

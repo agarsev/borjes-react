@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import Bjs from "borjes";
 
 var B = Bjs.types;
@@ -53,8 +54,8 @@ function render (val) {
     if (val!==undefined) {
         current = val;
     }
-    React.render(<BorjesComponent x={current} update={render} cpbuffer={cpbuffer} opts={{editable, signature:L, branchHeight: 30}} />, document.getElementById('area'));
-    React.render(<BorjesProtoLattice name={L.name} x={proto} update={updateSig} cpbuffer={cpbuffer} opts={{editable}} />, document.getElementById('latt'));
+    ReactDOM.render(<BorjesComponent x={current} update={render} cpbuffer={cpbuffer} opts={{editable, signature:L, branchHeight: 30}} />, document.getElementById('area'));
+    ReactDOM.render(<BorjesProtoLattice name={L.name} x={proto} update={updateSig} cpbuffer={cpbuffer} opts={{editable}} />, document.getElementById('latt'));
 }
 
 render();

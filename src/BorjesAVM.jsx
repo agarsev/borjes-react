@@ -39,7 +39,7 @@ class BorjesAVM extends React.Component {
     }
 
     addF () {
-        var f = React.findDOMNode(this.refs.newF).value;
+        var f = this.newF.value;
         if (f.length > 0) {
             var x = this.props.x;
             FStruct.set(x, f, Anything);
@@ -97,7 +97,7 @@ class BorjesAVM extends React.Component {
                     <td>{this.state.showF[f]?<BorjesComponent update={this.updateF.bind(this, f)} refresh={refresh} x={val} opts={opts}/>:null}</td>
                 </tr>);
             })}
-            {opts.editable?<td><input ref="newF" type="text" /><button onClick={this.addF.bind(this)}>+</button></td>:null}
+            {opts.editable?<tr><td><input ref={d=>this.newF=d} type="text" /><button onClick={this.addF.bind(this)}>+</button></td></tr>:null}
             </tbody>
         </table>);
     }
