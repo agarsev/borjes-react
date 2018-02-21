@@ -2,7 +2,7 @@
   "name": "borjes-react",
   "version": "1.0.0",
   "license": "AGPL-3.0",
-  "main": "dist/BorjesComponent.js",
+  "main": "dist/main.js",
   "private": true,
   "dependencies": {
     "borjes": "https://garciasevilla.com/pkgs/borjes.tar.gz",

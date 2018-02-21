@@ -4,8 +4,9 @@ import Bjs from "borjes";
 
 var B = Bjs.types;
 
-import BorjesComponent from "../dist/BorjesComponent";
-import BorjesProtoLattice from "../dist/BorjesProtoLattice";
+import { Component as BorjesComponent,
+    ProtoLattice as BorjesProtoLattice
+} from "../dist/main";
 
 var proto = {
     symbol: {
